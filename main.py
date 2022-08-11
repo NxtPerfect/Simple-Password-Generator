@@ -25,14 +25,21 @@ def get_password(chars: list, length: int):
 def generate_seed(length: int):
     for x in range(length):
         seed = random.randint(0, 9)
-    pass
+    return seed
 
+def save_to_file(password: str):
+    file = open("password_history.txt","a")
+    #if len(file.readlines()) > 15:
+        #save = open("password_history.txt", "w")
+    file.writeline(password)
+    return
 
-# def add_chars_to_list(self, chars):
-#     if chars not in CHARS:
-#         CHARS += chars
-#     pass
-
+def read_from_file():
+    file = open("password_history.txt","r")
+    text = ''
+    for line in file.readlines():
+        text += line
+    return text
 
 if __name__ == "__main__":
     random.seed()
@@ -53,16 +60,28 @@ if __name__ == "__main__":
                 while True:
                     length = int(input("How long should the password be?\t"))
                     if length != 0:
-                        break
+                        continue
             case 3:
+                if use_special_chars:
+                    CHARS -= SPECIAL_CHARACTERS
+                    use_special_chars = False
+                    continue
                 if SPECIAL_CHARACTERS not in CHARS:
                     CHARS += SPECIAL_CHARACTERS
                     use_special_chars = True
             case 4:
+                if use_capital_letters:
+                    CHARS -= CAPITAL_LETTERS
+                    use_capital_letters = False
+                    continue
                 if CAPITAL_LETTERS not in CHARS:
                     CHARS += CAPITAL_LETTERS
                     use_capital_letters = True
             case 5:
+                if use_numbers:
+                    CHARS -= NUMBERS
+                    use_numbers = False
+                    continue
                 if NUMBERS not in CHARS:
                     CHARS += NUMBERS
                     use_numbers = True
