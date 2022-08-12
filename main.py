@@ -1,4 +1,5 @@
 import random
+import os
 
 # two underscores in class make method/variable private
 
@@ -13,16 +14,15 @@ NUMBERS = ['1','2','3','4','5','6','7','8','9','0']
 VERSION = '0.1.0'
 
 
-def get_password(chars: list, length: int):
+def get_password(chars: list, length: int, seed: int):
     password = ''
     for x in range(length):
         index = random.randint(0, (len(chars)-1))
         password += chars[index]
-        # load password encrypted into json with the seed using caesar's algorithm
     return password
 
-
 def generate_seed(length: int):
+    seed: int = 0
     for x in range(length):
         seed = random.randint(0, 9)
     return seed
@@ -32,7 +32,6 @@ def save_to_file(password: str):
     #if len(file.readlines()) > 15:
         #save = open("password_history.txt", "w")
     file.writeline(password)
-    return
 
 def read_from_file():
     file = open("password_history.txt","r")
@@ -41,6 +40,13 @@ def read_from_file():
         text += line
     return text
 
+def clear_console():
+    command = 'clear'
+    if os.name in ('nt','dos'):
+        command = 'cls'
+    os.system(command)
+
+
 if __name__ == "__main__":
     random.seed()
     length = 5
@@ -48,22 +54,29 @@ if __name__ == "__main__":
     use_capital_letters = False
     use_numbers = False
     while True:
-        menu = "Welcome to Password Generator v%s\nPick your option:\n1. Generate password\n2. Change password length %s\n3. Include special characters %s\n4. Include capital letters %s\n5. Include numbers %s\t" % (
+        menu = "Welcome to Password Generator v%s\nPick your option:\n1. Generate password\n2.
+        Change password length %s\n3. Include special characters %s\n4. Include capital letters
+        %s\n5. Include numbers %s\n" % (
         VERSION, length, str(use_special_chars), str(use_capital_letters), str(use_numbers))
         choice = int(input(menu))
         match choice:
             case 1:
-                password = get_password(CHARS, length)
+                password = get_password(CHARS, length, generate_seed(random.randint(0,16)))
                 print(password)
                 input()
+                clear_console()
             case 2:
                 while True:
                     length = int(input("How long should the password be?\t"))
                     if length != 0:
-                        continue
+                        break
             case 3:
                 if use_special_chars:
-                    CHARS -= SPECIAL_CHARACTERS
+                    for char in SPECIAL_CHARACTERS:
+                        try:
+                            CHARS.remove(char)
+                        except ValueError:
+                            pass
                     use_special_chars = False
                     continue
                 if SPECIAL_CHARACTERS not in CHARS:
@@ -71,7 +84,11 @@ if __name__ == "__main__":
                     use_special_chars = True
             case 4:
                 if use_capital_letters:
-                    CHARS -= CAPITAL_LETTERS
+                    for char in CAPITAL_LETTERS:
+                        try:
+                            CHARS.remove(char)
+                        except ValueError:
+                            pass
                     use_capital_letters = False
                     continue
                 if CAPITAL_LETTERS not in CHARS:
@@ -79,7 +96,11 @@ if __name__ == "__main__":
                     use_capital_letters = True
             case 5:
                 if use_numbers:
-                    CHARS -= NUMBERS
+                    for char in NUMBERS:
+                        try:
+                            CHARS.remove(char)
+                        except ValueError:
+                            pass
                     use_numbers = False
                     continue
                 if NUMBERS not in CHARS:
