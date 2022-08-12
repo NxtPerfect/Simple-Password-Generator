@@ -16,6 +16,7 @@ VERSION = '0.1.0'
 
 def get_password(chars: list, length: int, seed: int):
     password = ''
+    random.seed(seed)
     for x in range(length):
         index = random.randint(0, (len(chars)-1))
         password += chars[index]
@@ -54,10 +55,7 @@ if __name__ == "__main__":
     use_capital_letters = False
     use_numbers = False
     while True:
-        menu = "Welcome to Password Generator v%s\nPick your option:\n1. Generate password\n2.
-        Change password length %s\n3. Include special characters %s\n4. Include capital letters
-        %s\n5. Include numbers %s\n" % (
-        VERSION, length, str(use_special_chars), str(use_capital_letters), str(use_numbers))
+        menu = "Welcome to Password Generator v%s\nPick your option:\n1. Generate password\n2. Change password length %s\n3. Include special characters %s\n4. Include capital letters %s\n5. Include numbers %s\n" % (VERSION, length, str(use_special_chars), str(use_capital_letters), str(use_numbers))
         choice = int(input(menu))
         match choice:
             case 1:
@@ -72,11 +70,7 @@ if __name__ == "__main__":
                         break
             case 3:
                 if use_special_chars:
-                    for char in SPECIAL_CHARACTERS:
-                        try:
-                            CHARS.remove(char)
-                        except ValueError:
-                            pass
+                    CHARS = list(set(CHARS) - set(SPECIAL_CHARACTERS))
                     use_special_chars = False
                     continue
                 if SPECIAL_CHARACTERS not in CHARS:
@@ -84,11 +78,7 @@ if __name__ == "__main__":
                     use_special_chars = True
             case 4:
                 if use_capital_letters:
-                    for char in CAPITAL_LETTERS:
-                        try:
-                            CHARS.remove(char)
-                        except ValueError:
-                            pass
+                    CHARS = list(set(CHARS) - set(CAPITAL_LETTERS))
                     use_capital_letters = False
                     continue
                 if CAPITAL_LETTERS not in CHARS:
@@ -96,11 +86,7 @@ if __name__ == "__main__":
                     use_capital_letters = True
             case 5:
                 if use_numbers:
-                    for char in NUMBERS:
-                        try:
-                            CHARS.remove(char)
-                        except ValueError:
-                            pass
+                    CHARS = list(set(CHARS) - set(NUMBERS))
                     use_numbers = False
                     continue
                 if NUMBERS not in CHARS:
