@@ -47,8 +47,7 @@ def clear_console():
         command = 'cls'
     os.system(command)
 
-
-if __name__ == "__main__":
+def main():
     random.seed()
     length = 5
     use_special_chars = False
@@ -92,3 +91,6 @@ if __name__ == "__main__":
                 if NUMBERS not in CHARS:
                     CHARS += NUMBERS
                     use_numbers = True
+
+if __name__ == "__main__":
+    main()
