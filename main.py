@@ -1,19 +1,25 @@
-import random
-import os
+import random, os, sys
+from PyQt5 import QtWidgets,QtGui
 
-# two underscores in class make method/variable private
-
+# Standard array that we use to create password from
 CHARS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k',
          'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'w', 'v', 'x', 'y', 'z']
+# Lowercase letters array
 LOWERCASE_LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k',
                      'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'w', 'v', 'x', 'y', 'z']
+# Capital letters array
 CAPITAL_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
                    'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'W', 'V', 'X', 'Y', 'Z']
+# Special characters array
 SPECIAL_CHARACTERS = ['~','!','@','#','$','%','^','&','*','(',')','-','_','=','+','[',']','{','}',':',';','/','<','>','.','?','`']
+# Numbers array
 NUMBERS = ['1','2','3','4','5','6','7','8','9','0']
+# Version number
 VERSION = '0.1.0'
 
 
+# Function to generate password, needs list of characters to use, length of the password
+# and seed for randomizing
 def get_password(chars: list, length: int, seed: int):
     password = ''
     random.seed(seed)
@@ -22,32 +28,53 @@ def get_password(chars: list, length: int, seed: int):
         password += chars[index]
     return password
 
+# Function to generate seed for pseudo random number generator
 def generate_seed(length: int):
     seed: int = 0
     for x in range(length):
         seed = random.randint(0, 9)
     return seed
 
-def save_to_file(password: str):
-    file = open("password_history.txt","a")
-    #if len(file.readlines()) > 15:
-        #save = open("password_history.txt", "w")
-    file.writeline(password)
+#def save_to_file(password: str):
+#    file = open("password_history.txt","a")
+#    #if len(file.readlines()) > 15:
+#        #save = open("password_history.txt", "w")
+#    file.writeline(password)
 
-def read_from_file():
-    file = open("password_history.txt","r")
-    text = ''
-    for line in file.readlines():
-        text += line
-    return text
+#def read_from_file():
+#    file = open("password_history.txt","r")
+#    text = ''
+#    for line in file.readlines():
+#        text += line
+#    return text
 
+# Function to clear console after use put keyboard input after password was shown on the
+# screen
 def clear_console():
     command = 'clear'
     if os.name in ('nt','dos'):
         command = 'cls'
     os.system(command)
 
+
+# Main function where magic happens
 def main():
+    #Makes simple pyqt window
+    app = QtWidgets.QApplication(sys.argv)
+    w = QtWidgets.QWidget()
+    
+    w.setWindowTitle('Simple Password Generator PyQt')
+    # after there actually is an icon to show
+    #w.setWindowIcon(QtGui.QIcon('icon.png'))
+    layout = QtWidgets.QHBoxLayout()
+    btn = QtWidgets.QPushButton("Hello")
+    layout.addWidget(btn)
+    w.setLayout(layout)
+    w.resize(500,500)
+    w.move(0,0)
+    w.show()
+    sys.exit(app.exec_())
+
     random.seed()
     length = 5
     use_special_chars = False
