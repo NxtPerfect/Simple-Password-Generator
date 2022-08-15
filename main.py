@@ -1,7 +1,4 @@
-import random
-import os
-
-# two underscores in class make method/variable private
+import random, os
 
 CHARS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k',
          'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'w', 'v', 'x', 'y', 'z']
@@ -28,18 +25,18 @@ def generate_seed(length: int):
         seed = random.randint(0, 9)
     return seed
 
-def save_to_file(password: str):
-    file = open("password_history.txt","a")
-    #if len(file.readlines()) > 15:
-        #save = open("password_history.txt", "w")
-    file.writeline(password)
+#def save_to_file(password: str):
+#    file = open("password_history.txt","a")
+#    #if len(file.readlines()) > 15:
+#        #save = open("password_history.txt", "w")
+#    file.writeline(password)
 
-def read_from_file():
-    file = open("password_history.txt","r")
-    text = ''
-    for line in file.readlines():
-        text += line
-    return text
+#def read_from_file():
+#    file = open("password_history.txt","r")
+#    text = ''
+#    for line in file.readlines():
+#        text += line
+#    return text
 
 def clear_console():
     command = 'clear'
