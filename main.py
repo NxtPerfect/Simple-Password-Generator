@@ -33,11 +33,16 @@ class QLabel(QtWidgets.QDialog):
 
     def init_ui(self):
         self.setWindowTitle('Simple Password Generator PyQt5')
-        self.setFixedWidth(400)
+        self.setFixedWidth(800)
+        self.setFixedHeight(800)
 
         self.length_label = QtWidgets.QLabel('&Password length:', self)
         self.length_line_edit = QtWidgets.QLineEdit(self)
+        self.length_line_edit.setMaxLength(3)
+        self.length_line_edit.setValidator(QtGui.QIntValidator(1,128))
         self.length_label.setBuddy(self.length_line_edit)
+        self.okLength = QtWidgets.QPushButton("Ok", clicked=self.getLength)
+        self.length_label.setBuddy(self.okLength)
 
         self.capital_letters_label = QtWidgets.QLabel('&Use capital letters:', self)
         self.capital_letters_toggle = QtWidgets.QPushButton(f'&%s' % (self.use_capital_letters),self)
@@ -71,6 +76,7 @@ class QLabel(QtWidgets.QDialog):
         main_layout = QtWidgets.QGridLayout(self)
         main_layout.addWidget(self.length_label, 0,0)
         main_layout.addWidget(self.length_line_edit,0,1,1,2)
+        main_layout.addWidget(self.okLength,0,2)
 
         main_layout.addWidget(self.capital_letters_label)
         main_layout.addWidget(self.capital_letters_toggle,1,1,1,2)
@@ -116,11 +122,14 @@ class QLabel(QtWidgets.QDialog):
         self.numbers_toggle.setText(f'&%s' % (self.use_numbers))
 
     def show_password(self):
-        passw = get_password(self.CHARS, self.length)
-        print(passw)
+        passw = get_password(self.CHARS, self.length)        
         self.password_label.setText('Generated password: %s' %
                                     (passw))
-        
+    def returnText(self):
+        return self.length_label.text()
+
+    def getLength(self, parent=None):
+        self.length = int(self.length_line_edit.text())
 
 # Function to generate password, needs list of characters to use, length of the password
 # and seed for randomizing
