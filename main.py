@@ -45,27 +45,27 @@ class QLabel(QtWidgets.QDialog):
         self.length_label.setBuddy(self.okLength)
 
         self.capital_letters_label = QtWidgets.QLabel('&Use capital letters:', self)
-        self.capital_letters_toggle = QtWidgets.QPushButton(f'&%s' % (self.use_capital_letters),self)
-        self.capital_letters_toggle.setCheckable(True)
+        self.capital_letters_toggle = QtWidgets.QCheckBox(f'&%s' % (self.use_capital_letters),self)
+        #self.capital_letters_toggle.setCheckable(True)
         self.capital_letters_toggle.setChecked(False)
-        self.capital_letters_toggle.clicked.connect(self.toggled)
+        self.capital_letters_toggle.stateChanged.connect(self.toggled)
         self.capital_letters_label.setBuddy(self.capital_letters_toggle)
 
         self.special_chars_label = QtWidgets.QLabel('&Use special characters:', self)
-        self.special_chars_toggle = QtWidgets.QPushButton(f'&%s' % (self.use_special_chars),self)
-        self.special_chars_toggle.setCheckable(True)
+        self.special_chars_toggle = QtWidgets.QCheckBox(f'&%s' % (self.use_special_chars),self)
+        #self.special_chars_toggle.setCheckable(True)
         self.special_chars_toggle.setChecked(False)
-        self.special_chars_toggle.clicked.connect(self.toggled)
+        self.special_chars_toggle.stateChanged.connect(self.toggled)
         self.special_chars_label.setBuddy(self.special_chars_toggle)
 
         self.numbers_label = QtWidgets.QLabel('&Use numbers:', self)
-        self.numbers_toggle = QtWidgets.QPushButton(f'&%s' % (self.use_numbers),self)
-        self.numbers_toggle.setCheckable(True)
+        self.numbers_toggle = QtWidgets.QCheckBox(f'&%s' % (self.use_numbers),self)
+        #self.numbers_toggle.setCheckable(True)
         self.numbers_toggle.setChecked(False)
-        self.numbers_toggle.clicked.connect(self.toggled)
+        self.numbers_toggle.stateChanged.connect(self.toggled)
         self.numbers_label.setBuddy(self.numbers_toggle)
 
-        self.password = '' #get_password(CHARS, length, get_seed(16)) 
+        self.password = ''
         self.password_label = QtWidgets.QLabel('Generated password:')
         self.password_generated = QtWidgets.QLineEdit(self.password)
         self.password_generated.setReadOnly(True)
@@ -77,17 +77,17 @@ class QLabel(QtWidgets.QDialog):
 
         main_layout = QtWidgets.QGridLayout(self)
         main_layout.addWidget(self.length_label, 0,0)
-        main_layout.addWidget(self.length_line_edit,0,1,1,2)
+        main_layout.addWidget(self.length_line_edit,0,1)
         main_layout.addWidget(self.okLength,0,2)
 
         main_layout.addWidget(self.capital_letters_label)
-        main_layout.addWidget(self.capital_letters_toggle,1,1,1,2)
+        main_layout.addWidget(self.capital_letters_toggle,1,1)
 
         main_layout.addWidget(self.special_chars_label)
-        main_layout.addWidget(self.special_chars_toggle,2,1,1,2)
+        main_layout.addWidget(self.special_chars_toggle,2,1)
 
         main_layout.addWidget(self.numbers_label)
-        main_layout.addWidget(self.numbers_toggle,3,1,1,2)
+        main_layout.addWidget(self.numbers_toggle,3,1)
 
         main_layout.addWidget(self.password_label)
         main_layout.addWidget(self.password_generated,4,1)
@@ -104,22 +104,21 @@ class QLabel(QtWidgets.QDialog):
             self.CHARS += self.CAPITAL_LETTERS
         else:
             self.use_capital_letters = False
-            if self.CAPITAL_LETTERS in self.CHARS:
-                self.CHARS = list(set(self.CHARS) - set(self.CAPITAL_LETTERS))
+            self.CHARS = list(set(self.CHARS) - set(self.CAPITAL_LETTERS))
+        
         if self.special_chars_toggle.isChecked():
             self.use_special_chars = True
             self.CHARS += self.SPECIAL_CHARACTERS
         else:
             self.use_special_chars = False
-            if self.SPECIAL_CHARACTERS in self.CHARS:
-                self.CHARS = list(set(self.CHARS) - set(self.SPECIAL_CHARACTERS))
+            self.CHARS = list(set(self.CHARS) - set(self.SPECIAL_CHARACTERS))
+        
         if self.numbers_toggle.isChecked():
             self.use_numbers = True
             self.CHARS += self.NUMBERS
         else:
             self.use_numbers = False
-            if self.NUMBERS in self.CHARS:
-                self.CHARS = list(set(self.CHARS) - set(self.NUMBERS))
+            self.CHARS = list(set(self.CHARS) - set(self.NUMBERS))
         self.capital_letters_toggle.setText(f'&%s' % (self.use_capital_letters))
         self.special_chars_toggle.setText(f'&%s' % (self.use_special_chars))
         self.numbers_toggle.setText(f'&%s' % (self.use_numbers))
