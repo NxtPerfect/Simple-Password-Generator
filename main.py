@@ -128,12 +128,14 @@ class QLabel(QtWidgets.QDialog):
         passw = get_password(self.CHARS, self.length)        
         self.password_generated.setText('%s' %
                                     (passw))
-    def returnText(self):
-        return self.length_label.text()
-
-    def getLength(self, parent=None):
-        self.length = int(self.length_line_edit.text())
     
+    def getLength(self, parent=None):
+        if self.length_line_edit.hasAcceptableInput():
+            self.length = int(self.length_line_edit.text())
+            return
+        self.length = 128
+        self.length_line_edit.setText('128')
+
     def copy_password(self):
         self.password_generated.copy()
 
