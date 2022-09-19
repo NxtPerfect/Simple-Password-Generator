@@ -40,6 +40,7 @@ class QLabel(QtWidgets.QDialog):
         self.length_line_edit = QtWidgets.QLineEdit(self)
         self.length_line_edit.setMaxLength(3)
         self.length_line_edit.setValidator(QtGui.QIntValidator(1,128))
+        self.length_line_edit.setText('5')
         self.length_label.setBuddy(self.length_line_edit)
         self.okLength = QtWidgets.QPushButton("Ok", clicked=self.getLength)
         self.length_label.setBuddy(self.okLength)
@@ -77,17 +78,17 @@ class QLabel(QtWidgets.QDialog):
 
         main_layout = QtWidgets.QGridLayout(self)
         main_layout.addWidget(self.length_label, 0,0)
-        main_layout.addWidget(self.length_line_edit,0,1)
+        main_layout.addWidget(self.length_line_edit,0,1,1,2)
         main_layout.addWidget(self.okLength,0,2)
 
         main_layout.addWidget(self.capital_letters_label)
-        main_layout.addWidget(self.capital_letters_toggle,1,1)
+        main_layout.addWidget(self.capital_letters_toggle,1,1,1,2)
 
         main_layout.addWidget(self.special_chars_label)
-        main_layout.addWidget(self.special_chars_toggle,2,1)
+        main_layout.addWidget(self.special_chars_toggle,2,1,1,2)
 
         main_layout.addWidget(self.numbers_label)
-        main_layout.addWidget(self.numbers_toggle,3,1)
+        main_layout.addWidget(self.numbers_toggle,3,1,1,2)
 
         main_layout.addWidget(self.password_label)
         main_layout.addWidget(self.password_generated,4,1)
