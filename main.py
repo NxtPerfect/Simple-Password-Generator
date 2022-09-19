@@ -66,12 +66,14 @@ class QLabel(QtWidgets.QDialog):
         self.numbers_label.setBuddy(self.numbers_toggle)
 
         self.password = '' #get_password(CHARS, length, get_seed(16)) 
-        self.password_label = QtWidgets.QLabel('Generated password: %s' %
-                                               (self.password), self)
+        self.password_label = QtWidgets.QLabel('Generated password:')
+        self.password_generated = QtWidgets.QLineEdit(self.password)
+        self.password_generated.setReadOnly(True)
 
         btn_generate_password = QtWidgets.QPushButton('&Generate Password')
         btn_generate_password.clicked.connect(self.show_password)
         btn_copy_to_clipboard = QtWidgets.QPushButton('&Copy to Clipboard')
+        btn_copy_to_clipboard.clicked.connect(self.copy_password)
 
         main_layout = QtWidgets.QGridLayout(self)
         main_layout.addWidget(self.length_label, 0,0)
@@ -88,6 +90,7 @@ class QLabel(QtWidgets.QDialog):
         main_layout.addWidget(self.numbers_toggle,3,1,1,2)
 
         main_layout.addWidget(self.password_label)
+        main_layout.addWidget(self.password_generated,4,1)
 
         main_layout.addWidget(btn_generate_password,5,1)
         main_layout.addWidget(btn_copy_to_clipboard,5,2)
@@ -123,13 +126,16 @@ class QLabel(QtWidgets.QDialog):
 
     def show_password(self):
         passw = get_password(self.CHARS, self.length)        
-        self.password_label.setText('Generated password: %s' %
+        self.password_generated.setText('%s' %
                                     (passw))
     def returnText(self):
         return self.length_label.text()
 
     def getLength(self, parent=None):
         self.length = int(self.length_line_edit.text())
+    
+    def copy_password(self):
+        self.password_generated.copy()
 
 # Function to generate password, needs list of characters to use, length of the password
 # and seed for randomizing
